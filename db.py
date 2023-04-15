@@ -177,7 +177,7 @@ class queries:
 
     def insert_data(self,patient_data):
         try:
-                    
+                    #checking 
             h_name = patient_data["h_name"]
             patient_name = patient_data["patient_name"]
             #specialty = patient_data["specialty"]
