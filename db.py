@@ -1,6 +1,5 @@
 import pypyodbc as odbc
-import requests
-import datetime
+#import requests
 DRIVER_NAME="SQL SERVER"
 SERVER_NAME="BT1000109872\SQLEXPRESS"
 DATABASE_NAME="Minor"
@@ -34,56 +33,6 @@ class queries:
             print("Exeception occured:{}".format(e))
             raise Exception(e)
             # success = False
-
-    def get_home_news(self):
-        try:
-            # BBC news api
-            # following query parameters are used
-            # source, sortBy and apiKey
-            query_params = {
-                "source": "bbc-news",
-                "category" :"health",
-                "language" : "en",
-                "sortBy": "top",
-                "apiKey": "ee60c89cda2549e19dc8c9fe0c249d57"
-            }
-            main_url = "http://newsapi.org/v2/top-headlines?"
-
-            # fetching data in json format
-            res = requests.get(main_url, params=query_params)
-            open_bbc_page = res.json()
-
-            # getting all articles in a string article
-            article = open_bbc_page["articles"]
-
-            # empty list which will contain all trending news,url,content
-            results = []
-            url=[]
-            content=[]
-
-            for ar in article:
-                results.append(ar["title"])
-                url.append(ar["url"])
-                if ar['content'] is not None:
-                    content.append(ar['content'].split('… ')[0])
-                else:
-                    content.append('')
-
-            news = []
-            for i in range(len(results)):
-                if results:
-                    news_item = {
-                        'title': results[i],
-                        'content': content[i],
-                        'url': url[i]
-                    }
-                    news.append(news_item)
-
-            return news
-        
-        except Exception as e:
-            print("Exception occurred:{}".format(e))
-            raise Exception(e)
         
     # TO give the data about hospital which is clicked
     def get_hospital_details(self,ID:str):
@@ -110,7 +59,7 @@ class queries:
             cursor = self.conn.cursor()
             query1="USE Minor;"
             query2 = f"SELECT * from Hospital_Info where Specialties_Present like '%{ID}%' order by stars desc;"
-            print("Qry",query2)
+            #print("Qry",query2)
             cursor.execute(query1)
             cursor.execute(query2)
 
@@ -164,20 +113,15 @@ class queries:
             cursor.execute(query1)
             cursor.execute(query2)
            
-            # Fetch the results of the query
             results = cursor.fetchall()
-
-            # return the results
             return results
         
         except Exception as e:
             print("Exeception occured:{}".format(e))
             raise Exception(e)
-            # success = False
-
+            
     def insert_data(self,patient_data):
         try:
-                    #checking 
             h_name = patient_data["hospitalName"]
             patient_name = patient_data["patName"]
             room_type = patient_data["roomType"]
@@ -191,13 +135,11 @@ class queries:
             query1="USE Minor;"  
             query2 = f"""INSERT INTO new_Patients (H_Name, Patient_Name, Room_Type, Appointment, Payment_Mode)
                 VALUES (\'{h_name}\', \'{patient_name}\',\'{room_type}\' , CAST('{appointment_date}' AS DATE), \'{payment_mode}\');"""
-            print("QQQQ",query2)
             query3=f"""UPDATE Rooms_Info
                 SET Beds_Occupied = Beds_Occupied + 1,
                 Available_Rooms = Available_Rooms - 1
                 WHERE H_No = \'{H_No}\' AND RoomID = \'{RoomID}\';"""
-            print("WWWW",query3)
-        
+            
             cursor.execute(query1)
             cursor.execute(query2)
             cursor.execute(query3)
@@ -206,7 +148,6 @@ class queries:
         except Exception as e:
             print("Exeception occured:{}".format(e))
             raise Exception(e)
-            # success = False
 
 
     def __del__(self):

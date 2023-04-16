@@ -1,8 +1,6 @@
 version = 1.87
 
-
 class FormResponse:
-
     def __init__(self):
         self.response = {
             "data":{},
@@ -20,10 +18,15 @@ class FormResponse:
     
     def hospital_det_response(self,data):
         #print("DDDD",data)
-        data = [{ "H_No": record[0], "Hospital_Name": record[1],"Place":record[2],"Total_Doctors":record[3],"Total_Beds":record[4],"MortalityRate":record[5],"CleanlinessScore":record[6],"Specialties_Present":record[7],"Total_Specialties":record[8],"Stars":record[9],} for record in data]
-            
+        data = [{ "H_No": record[0], "Hospital_Name": record[1],"Place":record[2],"Total_Doctors":record[3],"Total_Beds":record[4],"MortalityRate":record[5],"CleanlinessScore":record[6],"Specialties_Present":record[7],"Total_Specialties":record[8],"Stars":record[9],} for record in data] 
         return data
 
-
+    def suggest_response(self,data):
+        data = [{ "Source": record[0], "Hospital_Id": record[1], "Hospital_Name":record[2],"Specialty_Id":record[3],"Specialty":record[4]} for record in data]
+        return data
+    
+    def form_response(self,data):
+        data = [{ "Hospital_ID": record[0], "Room_ID": record[1],"Room_Type":record[2], "Room_Cost":record[3],"Available_rooms":record[4]} for record in data]
+        return data
 
     
