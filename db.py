@@ -156,7 +156,7 @@ class queries:
             query1="USE Minor;"
             query2 = f"""select H_No,RoomID,CASE
                         when RoomID='R1' Then 'General'
-                        when RoomID='R2' Then 'Semi-Priavte'
+                        when RoomID='R2' Then 'Semi-Private'
                         when RoomID='R3' Then 'Private'
                         End as 'Room_Type',Room_Cost, Available_Rooms
                         from Rooms_Info
@@ -178,26 +178,25 @@ class queries:
     def insert_data(self,patient_data):
         try:
                     #checking 
-            h_name = patient_data["h_name"]
-            patient_name = patient_data["patient_name"]
-            #specialty = patient_data["specialty"]
-            room_type = patient_data["room_type"]
-            appointment_date = patient_data["appointment_date"]
-            payment_mode = patient_data["payment_mode"]
-            H_No=patient_data["h_no"]
-            RoomID=patient_data["room_id"]
+            h_name = patient_data["hospitalName"]
+            patient_name = patient_data["patName"]
+            room_type = patient_data["roomType"]
+            appointment_date = patient_data["date"]
+            payment_mode = patient_data["MOP"]
+            H_No=patient_data["hospitalId"]
+            RoomID=patient_data["roomId"]
 
             # insert the data into the new_Patients table
             cursor = self.conn.cursor()
             query1="USE Minor;"  
-            query2 = f"""INSERT INTO new_Patients (H_Name, Patient_Name, Room_Type, Appointment_Date, Payment_Mode)
-                VALUES (\'{h_name}\', \'{patient_name}\',\'{room_type}\' , {appointment_date}, \'{payment_mode}\');"""
-            #print("QQQQ",query2)
+            query2 = f"""INSERT INTO new_Patients (H_Name, Patient_Name, Room_Type, Appointment, Payment_Mode)
+                VALUES (\'{h_name}\', \'{patient_name}\',\'{room_type}\' , CAST('{appointment_date}' AS DATE), \'{payment_mode}\');"""
+            print("QQQQ",query2)
             query3=f"""UPDATE Rooms_Info
                 SET Beds_Occupied = Beds_Occupied + 1,
                 Available_Rooms = Available_Rooms - 1
                 WHERE H_No = \'{H_No}\' AND RoomID = \'{RoomID}\';"""
-            #print("WWWW",query3)
+            print("WWWW",query3)
         
             cursor.execute(query1)
             cursor.execute(query2)
