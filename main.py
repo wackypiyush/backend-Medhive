@@ -1,11 +1,9 @@
 
-from fastapi import FastAPI, Request, Response, status
+from fastapi import FastAPI, Request, Response
 from typing import Dict, Any
 import uvicorn
-import json
 from db import queries
 import formResponse as respMapper
-import requests
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -36,7 +34,7 @@ async def handle(response: Response, request: Request = Dict[Any, Any]):
 async def handle(response: Response, request: Request = Dict[Any, Any]):
     query_params = dict(request.query_params)
     data= db_conn.get_hospital_details(query_params.get('ID', ''))
-    return res.hospital_det_response(data)
+    return res.hospital_home_response(data)
 
 @app.get("/SpecHospitals", status_code=200)
 async def handle(response: Response, request: Request = Dict[Any, Any]):

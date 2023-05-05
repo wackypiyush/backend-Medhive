@@ -17,7 +17,7 @@ class queries:
     def get_home_hospitals(self,page:int):
         try:
             cursor = self.conn.cursor()
-            off=(page-1)*10
+            #off=(page-1)*10
             query1="USE Minor;"
             query2 = f"SELECT * FROM Top10"
             cursor.execute(query1)
@@ -33,24 +33,26 @@ class queries:
             print("Exeception occured:{}".format(e))
             raise Exception(e)
             # success = False
-        
+   
     # TO give the data about hospital which is clicked
     def get_hospital_details(self,ID:str):
         try:
             cursor = self.conn.cursor()
             query1="USE Minor;"
-            query2 = f"SELECT * FROM Hospital_Info where H_No=\'{ID}\';"
+            query2 = f"""SELECT * from Hospital_Info where H_No=\'{ID}\'"""
             cursor.execute(query1)
             cursor.execute(query2)
+            print(query2)
 
             # Fetch the results of the query
             results = cursor.fetchall()
+            print(results)
 
             # return the results
             return results
         
         except Exception as e:
-            print("Exeception occured:{}".format(e))
+            print("Exception occured:{}".format(e))
             raise Exception(e)
             # success = False
     
@@ -58,7 +60,17 @@ class queries:
         try:
             cursor = self.conn.cursor()
             query1="USE Minor;"
-            query2 = f"SELECT * from Hospital_Info where Specialties_Present like '%{ID}%' order by stars desc;"
+            query2 = f"""
+
+            SELECT h.*, STRING_AGG(s.Specialty, ',') WITHIN GROUP (ORDER BY s.Specialty) AS Specialties
+            FROM Hospital_Info h
+            INNER JOIN (
+            SELECT value AS SpecialtyID 
+            FROM STRING_SPLIT( \'{ID}\', ',')
+            ) sp ON CHARINDEX(sp.SpecialtyID, h.Specialties_Present) > 0
+            INNER JOIN Specialties s ON CHARINDEX(s.SpecialtyID, h.Specialties_Present) > 0
+            GROUP BY h.H_No, h.Hospital_Name, h.Place, h.Total_Doctors, h.Total_Beds, h.MortailityRate, 
+            h.Cleanliness_Score, h.Specialties_Present, h.Total_Specialties_Present, h.Stars;"""
             #print("Qry",query2)
             cursor.execute(query1)
             cursor.execute(query2)
@@ -70,7 +82,7 @@ class queries:
             return results
         
         except Exception as e:
-            print("Exeception occured:{}".format(e))
+            print("Exception occured:{}".format(e))
             raise Exception(e)
             # success = False
 
@@ -78,7 +90,7 @@ class queries:
     def get_suggestions(self,keyword:str):
         try:
             cursor = self.conn.cursor()
-            print("Hello")
+            #print("Hello")
             query1="USE Minor;"
             query2 = f"""select 'Hospital' as Source, H_No as ID, Hospital_Name as Name, Null as Specialty_ID, Null as Specialty 
             from Hospital_Info where Hospital_Name LIke '%{keyword}%'
@@ -94,7 +106,7 @@ class queries:
             return results
         
         except Exception as e:
-            print("Exeception occured:{}".format(e))
+            print("Exception occured:{}".format(e))
             raise Exception(e)
             # success = False
 
@@ -117,11 +129,12 @@ class queries:
             return results
         
         except Exception as e:
-            print("Exeception occured:{}".format(e))
+            print("Exception occured:{}".format(e))
             raise Exception(e)
             
     def insert_data(self,patient_data):
         try:
+            print("outjfdnejf",patient_data)
             h_name = patient_data["hospitalName"]
             patient_name = patient_data["patName"]
             room_type = patient_data["roomType"]
