@@ -1,19 +1,38 @@
-# Introduction 
-MedHive is a revolutionary platform that simplifies the process of booking a hospital bed. With this, patients can book a bed from the comfort of their homes and avoid the hassle of waiting in long queues at the hospital. This platfrom aims to provide a seamless experience to patients.
+# MedHive (Hospital Bed Booking API)
+Welcome to MedHive, a revolutionary platform that simplifies the process of booking a hospital bed. MedHive allows patients to book a bed from the comfort of their homes, eliminating the hassle of waiting in long queues at the hospital. Our platform aims to provide a seamless experience to patients seeking hospital accommodations.
 
-For now, platform is using just Odisha Hospital names and the dummy data around it. The appointment is showed in our database. 
+## Key Features
+Real-Time Bed/Cost Information: One of the standout features of MedHive is real-time bed and cost information. Patients can use the app to check the availability of beds in the hospital in real-time, allowing them to plan their visits accordingly. Additionally, they can get an estimate of the cost of a room, helping them make informed decisions about their healthcare expenses.
 
-One of the key features of MedHive is the real-time bed/cost information. Patients can use the app to check the availability of beds in the hospital in real-time, enabling them to plan their visits accordingly. They can also get an estimate of the cost of room and can select the best hospital.
+Specialty Directory: MedHive provides patients with a comprehensive directory of all the specialties available in the hospital, along with their respective locations. This feature simplifies the process of finding the right department or specialist, ensuring patients receive the care they need promptly.
 
-Another feature is that the platform provides patients with a directory of all the specialties available in the hospital, along with their location.
+## Getting Started
+Installation Process
+To set up the MedHive API on your local machine, follow these steps:
 
-# Getting Started
-1. Installation Process
-    - `python -m venv venv`
-    - `venv\Scripts\activate`
-    - `pip install -r requirements.txt`
-2.	Software dependencies
-3.	Latest releases
-4.	API references
-5.  To Run --> `uvicorn main:app --host 0.0.0.0 --port 8000`
-6.  To Quit --> Press `Ctrl+C`
+1. Create a virtual environment:
+python -m venv venv
+
+2. Activate the virtual environment:
+On Windows: venv\Scripts\activate
+On macOS and Linux: source venv/bin/activate
+
+3. Install the required dependencies:
+pip install -r requirements.txt
+
+4. Run the API:
+uvicorn main:app --host 0.0.0.0 --port 8000
+
+5. To quit the API, press Ctrl+C.
+
+## Note
+The video file is attached on the portfolio website showcasing the whole web platform.
+This repository contains the API file written in Python using FastAPI.
+The database is hosted on a local machine since free hosting options are not available.
+The frontend is not hosted yet; it's currently in development.
+
+Feel free to explore the API and its functionalities. For any questions or inquiries, please contact us at wacky.piyush@gmail.com.
+
+Thank you for your interest in MedHive. We look forward to providing a seamless bed booking experience for patients.
+
+
